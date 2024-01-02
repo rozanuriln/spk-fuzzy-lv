@@ -16,6 +16,6 @@ class DashboardController extends Controller
 
         $user = User::all()->count();
         $employee = Employee::all()->count();
-        return view('admin.dashboard.index', compact('user'));
+        return view('admin.dashboard.index', compact('user','employee'));
     }
 }

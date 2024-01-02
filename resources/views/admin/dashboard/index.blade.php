@@ -49,9 +49,9 @@
         </table>
         @else
         <div class="row">
-            {{-- <div class="col-lg-4 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
-                <div class="small-box bg-success">
+                <div class="small-box bg-primary">
                   <div class="inner">
                     <h3>{{$employee}}</h3>
 
@@ -62,7 +62,21 @@
                   </div>
                   <a href="#" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-              </div> --}}
+              </div>
+              <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>{{$user}}</h3>
+
+                    <p>User</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-ios-people"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
           <!-- ./col -->
 
           <!-- ./col -->

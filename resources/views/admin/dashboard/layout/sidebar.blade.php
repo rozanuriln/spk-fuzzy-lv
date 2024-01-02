@@ -3,7 +3,6 @@
 @php
     $user_id = auth()->user()->id;
         // dd($user_id);
-    $data = \App\Models\Employee::with(['position', 'position.position'])->where('user_id', $user_id)->first();
 @endphp
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -14,6 +13,7 @@
     </a>
 
     <!-- Sidebar -->
+
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -36,7 +36,6 @@
               </p>
             </a>
           </li>
-          @if($data == null)
           <li class="nav-item">
             <a class="nav-link {{ Request::is('employee') ? 'active' : '' }}" aria-current="page" href="/employee">
               <i class="nav-icon fas fa-users"></i>
@@ -94,7 +93,6 @@
               </p>
             </a>
           </li> --}}
-          @endif
           <li class="nav-item">
           <div class="navbar-nav">
             <div class="nav-item text-nowrap">

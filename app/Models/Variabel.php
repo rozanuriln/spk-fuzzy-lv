@@ -4,19 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PositionDetail;
 
-class Employee extends Model
+class Variabel extends Model
 {
     use HasFactory;
 
     Protected $table = 'employee';
 
     protected $fillable = [
-        'nama',
-        'birthDate',
-        'address',
-        'bobot',
+        'label',
+        'status'
     ];
 
     public $timestamps = false;
@@ -24,6 +21,11 @@ class Employee extends Model
     public function getRouteKeyName()
     {
         return 'id';
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Variabel::class);
     }
 
 }

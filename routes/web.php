@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,4 @@ Route::post('/storeEmployee/{id}', [EmployeeController::class, 'storeEmployee'])
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::resource('user', UserController::class);
 Route::resource('employee', EmployeeController::class);
+Route::post('importData', [ProjectController::class, 'importData'])->name('importData');
