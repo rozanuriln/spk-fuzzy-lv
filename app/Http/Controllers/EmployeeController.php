@@ -60,8 +60,7 @@ class EmployeeController extends Controller
                 'bobot' => $request->bobot,
             ]);
 
-            return redirect('emp
-            loyee')->with ('Berhasil menambah data!');
+            return redirect('employee')->with ('Berhasil menambah data!');
         } catch (\Throwable $th) {
             return $th;
             return back()->with('failed', 'Gagal menambah data!'.$th->getMessage());
