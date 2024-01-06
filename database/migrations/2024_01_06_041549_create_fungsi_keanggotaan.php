@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variabel', function (Blueprint $table) {
+        Schema::create('fungsi_keanggotaan', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('variabel');
-            $table->string('kode');
+            $table->integer('himpunan_id')->unsigned();
+            $table->string('fungsi');
+            $table->string('bobot');
+            $table->foreign('himpunan_id')->references('id')->on('himpunan_fuzzy');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variabel');
+        Schema::dropIfExists('fungsi_keanggotaan');
     }
 };
