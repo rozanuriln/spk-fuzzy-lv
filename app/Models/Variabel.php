@@ -9,11 +9,11 @@ class Variabel extends Model
 {
     use HasFactory;
 
-    Protected $table = 'employee';
+    Protected $table = 'variabel';
 
     protected $fillable = [
-        'label',
-        'status'
+        'variabel',
+        'kode'
     ];
 
     public $timestamps = false;
@@ -23,7 +23,7 @@ class Variabel extends Model
         return 'id';
     }
 
-    public function employee()
+    public function variabel()
     {
         return $this->belongsTo(Variabel::class);
     }

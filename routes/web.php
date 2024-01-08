@@ -6,6 +6,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\variabelController;
+use App\Http\Controllers\HimpunanController;
+use App\Http\Controllers\FungsiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +35,7 @@ Route::post('/storeEmployee/{id}', [EmployeeController::class, 'storeEmployee'])
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::resource('user', UserController::class);
 Route::resource('employee', EmployeeController::class);
+Route::resource('variabel', VariabelController::class);
+Route::resource('himpunan', HimpunanController::class);
+Route::resource('fngsi', FungsiController::class);
 Route::post('importData', [ProjectController::class, 'importData'])->name('importData');

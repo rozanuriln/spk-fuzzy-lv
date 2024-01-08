@@ -52,6 +52,37 @@
               </p>
             </a>
           </li>
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link {{ Request::is('variabel') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Master
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/variabel" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Variabel</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/himpunan" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Himpunan</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/fungsi" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Fungsi</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
           {{-- <li class="nav-item">
             <a class="nav-link {{ Request::is('position') ? 'active' : '' }}" aria-current="page" href="/position">
               <i class="nav-icon fas fa-table"></i>
