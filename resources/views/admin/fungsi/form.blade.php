@@ -21,17 +21,17 @@
               @method('PUT')
           @endif
           <div class="mb-3">
-            <label for="name" class="form-label">Variabel ID</label>
+            <label for="name" class="form-label">Himpunan ID</label>
             @php
-                $variabelActive = $data->variabel_id ?? old('variabel_id');
+                $himpunanActive = $data->himpunan_id ?? old('himpunan_id');
             @endphp
-            <select name="variabel_id" id="" class="form-control" {{ $data->type == 'detail' ? 'disabled' : ''}} required>
-                <option value="">Pilih variabel ID</option>
-                @foreach ($variabel as $g)
-                    <option {{$variabelActive == $g->id ? 'selected': ''}} value="{{$g->id}}">{{$g->variabel}}</option>
+            <select name="himpunan_id" id="" class="form-control" {{ $data->type == 'detail' ? 'disabled' : ''}} required>
+                <option value="">Pilih Himpunan ID</option>
+                @foreach ($himpunan as $g)
+                    <option {{$himpunanActive == $g->id ? 'selected': ''}} value="{{$g->id}}">{{$g->himpunan}}</option>
                 @endforeach
             </select>
-            @error('variabel_id')
+            @error('himpunan_id')
             <div class="invalid-feedback">
               {{ $message }}
             </div>
@@ -47,9 +47,19 @@
             @enderror
          </div> --}}
             <div class="mb-3">
-                <label for="name" class="form-label">Himpunan</label>
-                <input type="text" {{ $data->type == 'detail' ? 'disabled' : ''}} value='{{$data->himpunan ?? old('himpunan')}}' class="form-control @error('himpunan') is-invalid @enderror" id="himpunan" name="himpunan" required autofocus>
-                @error('himpunan')
+                <label for="name" class="form-label">Fungsi</label>
+                <input type="text" {{ $data->type == 'detail' ? 'disabled' : ''}} value='{{$data->fungsi ?? old('fungsi')}}' class="form-control @error('fungsi') is-invalid @enderror" id="fungsi" name="fungsi" required autofocus>
+                @error('fungsi')
+                <div class="invalid-feedback">
+                  {{ $message }}
+                </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Bobot</label>
+                <input type="text" {{ $data->type == 'detail' ? 'disabled' : ''}} value='{{$data->bobot ?? old('bobot')}}' class="form-control @error('bobot') is-invalid @enderror" id="bobot" name="bobot" required autofocus>
+                @error('bobot')
                 <div class="invalid-feedback">
                   {{ $message }}
                 </div>
@@ -60,9 +70,9 @@
             <button type="submit" class="btn btn-primary">Simpan</button>
             <button type="reset" class="btn btn-danger">Reset</button>
             @elseif($data->type == 'edit')
-              <a href="{{route('himpunan.edit', $data->id)}}"><button type="button" class="btn btn-primary">Edit</button></a>
+              <a href="{{route('fungsi.edit', $data->id)}}"><button type="button" class="btn btn-primary">Edit</button></a>
             @endif
-            <a href="{{route('himpunan.index')}}"><button type="button" class="btn btn-dark">Kembali</button></a>
+            <a href="{{route('fungsi.index')}}"><button type="button" class="btn btn-dark">Kembali</button></a>
 
         </form>
       </div>

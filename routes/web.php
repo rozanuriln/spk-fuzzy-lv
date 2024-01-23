@@ -37,5 +37,5 @@ Route::resource('user', UserController::class);
 Route::resource('employee', EmployeeController::class);
 Route::resource('variabel', VariabelController::class);
 Route::resource('himpunan', HimpunanController::class);
-Route::resource('fngsi', FungsiController::class);
+Route::resource('fungsi', FungsiController::class);
 Route::post('importData', [ProjectController::class, 'importData'])->name('importData');

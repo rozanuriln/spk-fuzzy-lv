@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Himpunan;
+use App\Models\Variabel;
 use Illuminate\Http\Request;
 
 class HimpunanController extends Controller
@@ -31,11 +32,12 @@ class HimpunanController extends Controller
             $title = 'Tambah Data Himpunan';
             $data = (object)[
                 'variabel_id'               => '',
-                'himpunan'                   => '',
+                'himpunan'                  => '',
                 'type'                   => 'create',
                 'route'                  => route('himpunan.store')
             ];
-            return view('admin.himpunan.form', compact('title', 'data'));
+            $variabel = Variabel::all();
+            return view('admin.himpunan.form', compact('title', 'data', 'variabel'));
 
         }
     }
@@ -55,7 +57,7 @@ class HimpunanController extends Controller
                 ]);
                 Himpunan::create([
                     'variabel_id' => $request->variabel_id,
-                    'himpunan' => $request->kode,
+                    'himpunan' => $request->himpunan,
                 ]);
 
                 return redirect('himpunan')->with ('Berhasil menambah data!');
@@ -77,18 +79,27 @@ class HimpunanController extends Controller
             $data->type = 'detail';
             $title = 'Detail Data Himpunan';
             $project = Himpunan::all();
+            $variabel = Variabel::all();
 
             // code aslinya
-            return view('admin.himpunan.form', compact('id', 'data', 'title',));
+            return view('admin.himpunan.form', compact('id', 'data', 'title', 'variabel'));
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Himpunan $himpunan)
+    public function edit($id)
     {
+        {
         //
+        $data = Himpunan::where('id', $id)->first();
+        $variabel = Variabel::all();
+        $data->route = route('himpunan.update', $id);
+        $title = 'Edit Data Himpunan';
+        return view('admin.himpunan.form', compact('data', 'title', 'variabel'));
+        }
+
     }
 
     /**
@@ -99,18 +110,18 @@ class HimpunanController extends Controller
         {
             //
             $request->validate([
-                'variabel' => 'required',
-                'kode' => 'required',
+                'variabel_id' => 'required',
+                'himpunan' => 'required',
 
             ]);
             try {
                 $data = ([
-                    'variabel' => $request->variabel,
-                    'kode' => $request->kode,
+                    'variabel_id' => $request->variabel_id,
+                    'himpunan' => $request->himpunan,
                 ]);
 
-                Variabel::where('id', $id)->update($data);
-                return redirect('variabel')->with('success', 'Berhasil mengubah data!');
+                Himpunan::where('id', $id)->update($data);
+                return redirect('himpunan')->with('success', 'Berhasil mengubah data!');
             } catch (\Throwable $th) {
                 return back()->with('failed', 'Gagal mengubah data!');
             }
@@ -120,8 +131,12 @@ class HimpunanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Himpunan $himpunan)
+    public function destroy($id)
     {
-        //
+        {
+            //
+            Himpunan::find($id)->delete();
+            return redirect('himpunan')->with('success', 'Berhasil mengubah data!');
+        }
     }
 }

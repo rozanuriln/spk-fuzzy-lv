@@ -95,5 +95,14 @@ class VariabelController extends Controller
         return view('admin.variabel.form', compact('data', 'title'));
     }
 
+    public function destroy($id)
+    {
+        {
+            //
+            Variabel::find($id)->delete();
+            return redirect('variabel')->with('success', 'Berhasil mengubah data!');
+        }
+    }
+
 
 }
