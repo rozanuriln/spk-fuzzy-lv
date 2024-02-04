@@ -146,5 +146,5 @@ class EmployeeController extends Controller
         return redirect('employee')->with('success', 'Berhasil hapus data!');
     }
 
-
+    
 }

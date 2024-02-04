@@ -20,6 +20,19 @@
           @if($data->type != 'create')
               @method('PUT')
           @endif
+          @foreach ($data->data as $item)
+              <div class="row">
+                <div class="col-md-6">
+                    <label for="">Variabel</label>
+                    <input type="text" name="variabel_label[]" value="{{$item->variabel}}" readonly>
+                    <input type="hidden" name="variabel_value[]" value="{{$item->id}}">
+                </div>
+                <div class="col-md-6">
+                    <label for="">Nilai</label>
+                    <input type="text" name="nilai[]">
+                </div>
+              </div>
+          @endforeach
             <div class="mb-3">
               <label for="name" class="form-label">Variabel</label>
               <input type="text" {{ $data->type == 'detail' ? 'disabled' : ''}} value='{{$data->variabel ?? old('variabel')}}' class="form-control @error('variabel') is-invalid @enderror" id="variabel" name="variabel" required autofocus>
