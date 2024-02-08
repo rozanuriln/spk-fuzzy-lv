@@ -10,4 +10,10 @@ class Himpunan extends Model
     use HasFactory;
     protected $table= "himpunan_fuzzy";
     protected $fillable = ['variabel_id', 'himpunan'];
+
+    public function variabel()
+    {
+        return $this->belongsTo(Variabel::class, 'variabel_id', 'id');
+    }
+
 }

@@ -29,7 +29,7 @@
         @foreach ($data as $project)
         <tr>
           <td>{{ $loop->iteration }}</td>
-          <td>{{ $project->variabel_id}}</td>
+          <td>{{ $project->variabel->variabel}}</td>
           <td>{{ $project->himpunan}}</td>
           <td>
               <a href="{{ route('himpunan.show', $project->id)}}" class="badge bg-primary">Detail</a>

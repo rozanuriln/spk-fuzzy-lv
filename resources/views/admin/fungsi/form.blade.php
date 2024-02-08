@@ -28,7 +28,7 @@
             <select name="himpunan_id" id="" class="form-control" {{ $data->type == 'detail' ? 'disabled' : ''}} required>
                 <option value="">Pilih Himpunan ID</option>
                 @foreach ($himpunan as $g)
-                    <option {{$himpunanActive == $g->id ? 'selected': ''}} value="{{$g->id}}">{{$g->himpunan}}</option>
+                    <option {{$himpunanActive == $g->id ? 'selected': ''}} value="{{$g->id}}">{{$g->variabel->variabel.'-'.$g->himpunan}}</option>
                 @endforeach
             </select>
             @error('himpunan_id')

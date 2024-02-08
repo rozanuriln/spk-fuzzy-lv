@@ -26,7 +26,6 @@ class VariabelController extends Controller
             'variabel'               => '',
             'kode'                   => '',
             'type'                   => 'create',
-            'data'                   => Variabel::all(),
             'route'                  => route('variabel.store')
         ];
         return view('admin.variabel.form', compact('title', 'data'));

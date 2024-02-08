@@ -10,7 +10,7 @@ class Employee extends Model
 {
     use HasFactory;
 
-    Protected $table = 'employee';
+    protected $table = 'employee';
 
     protected $fillable = [
         'nama',
@@ -26,4 +26,8 @@ class Employee extends Model
         return 'id';
     }
 
+    public function evaluation()
+    {
+        return $this->hasMany(EmployeeEvaluation::class, 'employee_id', 'id');
+    }
 }

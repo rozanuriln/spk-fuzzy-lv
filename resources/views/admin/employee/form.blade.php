@@ -47,7 +47,7 @@
                 </div>
                 @enderror
             </div>
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="name" class="form-label">Bobot</label>
                 <input type="text" {{ $data->type == 'detail' ? 'disabled' : ''}} value='{{$data->bobot ?? old('bobot')}}' class="form-control @error('bobot') is-invalid @enderror" id="bobot" name="bobot" required autofocus>
                 @error('bobot')
@@ -55,7 +55,7 @@
                   {{ $message }}
                 </div>
                 @enderror
-            </div>
+            </div> --}}
 
             @if($data->type != 'detail')
             <button type="submit" class="btn btn-primary">Simpan</button>

@@ -38,4 +38,7 @@ Route::resource('employee', EmployeeController::class);
 Route::resource('variabel', VariabelController::class);
 Route::resource('himpunan', HimpunanController::class);
 Route::resource('fungsi', FungsiController::class);
+
+Route::get('/evaluasi/{id}', [EmployeeController::class, 'formPenilaian']);
+Route::post('/submitEvaluation/{id}', [EmployeeController::class, 'submitEvaluation']);
 Route::post('importData', [ProjectController::class, 'importData'])->name('importData');

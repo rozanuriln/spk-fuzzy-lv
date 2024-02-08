@@ -23,9 +23,9 @@ class Variabel extends Model
         return 'id';
     }
 
-    public function variabel()
-    {
-        return $this->belongsTo(Variabel::class);
-    }
+    // public function variabel()
+    // {
+    //     return $this->belongsTo(Variabel::class);
+    // }
 
 }
