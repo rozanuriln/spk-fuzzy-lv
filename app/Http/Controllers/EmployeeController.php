@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
 use App\Imports\ProjectImport;
+use App\Models\EmployeeEvaluation;
+use App\Models\Fungsi;
+use App\Models\Himpunan;
 use App\Models\Variabel;
 use Carbon\Carbon;
 
@@ -134,8 +137,9 @@ class EmployeeController extends Controller
         $title = 'Detail Data Pegawai';
         $project = Employee::all();
 
-        // code aslinya
-        return view('admin.employee.form', compact('id', 'data', 'title',));
+        $evaluation = EmployeeEvaluation::where('employee_id', $id)->get();
+
+        return view('admin.employee.form', compact('id', 'data', 'title', 'evaluation'));
     }
 
     public function destroy($id)
@@ -164,6 +168,67 @@ class EmployeeController extends Controller
 
     public function submitEvaluation(Request $request, $id)
     {
-        return $request;
+        try {
+            $list = [];
+            $highest = [];
+            $bobot = 0;
+            $i = 0;
+            foreach ($request->variabel_id as $is => $item) { //perulangan untuk mencari variabel yang telah diinput
+                $himpunan = Fungsi::join('himpunan_fuzzy', 'himpunan_fuzzy.id', 'fungsi_keanggotaan.himpunan_id')
+                    ->where('himpunan_fuzzy.variabel_id', $item)
+                    ->select('himpunan_fuzzy.himpunan', 'fungsi_keanggotaan.*')
+                    ->get(); // mencari data himpunan dari database berdasarkan variabel id yang  diinput
+                // return $himpunan;
+                $input = [];
+                foreach ($himpunan as $key => $hm) { // perulangan untuk menentukan tiap himpuan yang cocok dengan inputan
+                    $cekIndex = 0;
+                    $tmpBobot = 0;
+
+                    $fungsi = str_replace('x', $request->nilai[$id], $hm->fungsi);
+                    $condition = $fungsi;
+                    $formula = eval("if ($condition) { return '1'; } else { return '0'; }");
+                    if (intval($formula) == 1) {
+                        if (str_contains($hm->bobot, 'x')) {
+                            $rumus = str_replace('x', $request->nilai[$id], $hm->bobot);
+                            $hasil = eval('return ' . $rumus . ';');
+                            $tmpBobot = $hasil;
+                        } else {
+                            $tmpBobot = $hm->bobot;
+                        }
+                        $tmpInput = [
+                            'variabel_id' => $item,
+                            'himpunan_id' => $hm->himpunan_id,
+                            'himpunan' => $hm->himpunan,
+                            'bobot' => $tmpBobot,
+                        ];
+                        $bobot += $tmpBobot;
+                        array_push($input, $tmpInput);
+                    }
+                }
+                usort($input, function ($first, $second) {
+                    return $first['bobot'] < $second['bobot'];
+                });
+                array_push($highest, $input[0]);
+                array_push($list, $bobot);
+            }
+
+            $total = 0;
+            for ($i = 0; $i < count($list); $i++) {
+                $variabel = Variabel::where('id', $request->variabel_id[$i])->first();
+                $tmpBobot = intval($request->nilai[$i]) >= $variabel->min && intval($request->nilai[$i]) <= $variabel->max ? $highest[$i]['bobot'] : 0;
+                $total += doubleval($tmpBobot);
+                EmployeeEvaluation::create([
+                    'employee_id' => $id,
+                    'variabel_id' => $request->variabel_id[$i],
+                    'himpunan_id' => $highest[$i]['himpunan_id'],
+                    'bobot' => round(doubleval($tmpBobot)),
+                ]);
+            }
+            Employee::where('id', $id)->update(['bobot' => $total]);
+            return redirect('employee');
+            return ['total bobot' => $total, 'bobot tiap variabel' => $highest, 'input' => $request->nilai];
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

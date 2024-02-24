@@ -44,6 +44,30 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nilai Minimal</label>
+                            <input type="text" {{ $data->type == 'detail' ? 'disabled' : '' }}
+                                value='{{ $data->min ?? old('min') }}'
+                                class="form-control @error('min') is-invalid @enderror" id="min" name="min"
+                                required autofocus>
+                            @error('min')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nilai Maksimal</label>
+                            <input type="text" {{ $data->type == 'detail' ? 'disabled' : '' }}
+                                value='{{ $data->max ?? old('max') }}'
+                                class="form-control @error('max') is-invalid @enderror" id="max" name="max"
+                                required autofocus>
+                            @error('max')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
 
                         @if ($data->type != 'detail')
                             <button type="submit" class="btn btn-primary">Simpan</button>

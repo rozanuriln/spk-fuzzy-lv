@@ -16,4 +16,9 @@ class Himpunan extends Model
         return $this->belongsTo(Variabel::class, 'variabel_id', 'id');
     }
 
+    public function fungsi()
+    {
+        return $this->hasMany(Fungsi::class, 'himpunan_id', 'id');
+    }
+
 }

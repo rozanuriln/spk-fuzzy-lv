@@ -13,7 +13,9 @@ class Variabel extends Model
 
     protected $fillable = [
         'variabel',
-        'kode'
+        'kode',
+        'min',
+        'max',
     ];
 
     public $timestamps = false;

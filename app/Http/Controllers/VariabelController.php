@@ -25,6 +25,8 @@ class VariabelController extends Controller
         $data = (object)[
             'variabel'               => '',
             'kode'                   => '',
+            'min'                   => '',
+            'max'                   => '',
             'type'                   => 'create',
             'route'                  => route('variabel.store')
         ];
@@ -40,10 +42,14 @@ class VariabelController extends Controller
             $request->validate([
                 'variabel' => 'required',
                 'kode' => 'required',
+                'min' => 'required',
+                'max' => 'required',
             ]);
             Variabel::create([
                 'variabel' => $request->variabel,
                 'kode' => $request->kode,
+                'min' => $request->min,
+                'max' => $request->max,
             ]);
 
             return redirect('variabel')->with ('Berhasil menambah data!');
@@ -59,12 +65,16 @@ class VariabelController extends Controller
         $request->validate([
             'variabel' => 'required',
             'kode' => 'required',
+            'min' => 'required',
+            'max' => 'required',
 
         ]);
         try {
             $data = ([
                 'variabel' => $request->variabel,
                 'kode' => $request->kode,
+                'min' => $request->min,
+                'max' => $request->max,
             ]);
 
             Variabel::where('id', $id)->update($data);
