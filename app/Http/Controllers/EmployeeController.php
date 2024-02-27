@@ -184,49 +184,49 @@ class EmployeeController extends Controller
                     $cekIndex = 0;
                     $tmpBobot = 0;
 
-                    $fungsi = str_replace('x', $request->nilai[$id], $hm->fungsi);
-                    $condition = $fungsi;
-                    $formula = eval("if ($condition) { return '1'; } else { return '0'; }");
-                    if (intval($formula) == 1) {
-                        if (str_contains($hm->bobot, 'x')) {
-                            $rumus = str_replace('x', $request->nilai[$id], $hm->bobot);
-                            $hasil = eval('return ' . $rumus . ';');
-                            $tmpBobot = $hasil;
-                        } else {
-                            $tmpBobot = $hm->bobot;
+                    $fungsi = str_replace('x', $request->nilai[$id], $hm->fungsi); // melakukan perubahan nilai x pada fungsi dengan nilai yang dimasukkan
+                    $condition = $fungsi; // variabel untuk menampung kondisi sementara untuk pengecekan nilai
+                    $formula = eval("if ($condition) { return '1'; } else { return '0'; }"); // pengecekan nilai fungsi jika nilai input memenuhi kondisi pada fungsi maka akan mengembalikan nilai 1 jika tidak memenuhi maka akan mengembalikan nilai 0
+                    if (intval($formula) == 1) { // pengecekan jika kondisi benar(bernilai 1) / input memenuhi kriteria salah satu fungsi
+                        if (str_contains($hm->bobot, 'x')) { // pengecakan apakah nilai bobot masih berupa rumus atau sudah berupa bilangan bulat
+                            $rumus = str_replace('x', $request->nilai[$id], $hm->bobot); // mengisi nilai x pada rumus penentuan bobot dengan nilai input
+                            $hasil = eval('return ' . $rumus . ';'); // eksekusi rumus menggunakan fungsi eval()
+                            $tmpBobot = $hasil; // menampung sementara nilai bobot
+                        } else { // kondisi jika nilai bobot merupakan bilangan bulat
+                            $tmpBobot = $hm->bobot; // menampung sementara nilai bobot
                         }
-                        $tmpInput = [
+                        $tmpInput = [ // menampung record yang akan disimpan ke dalam database sebagai history
                             'variabel_id' => $item,
                             'himpunan_id' => $hm->himpunan_id,
                             'himpunan' => $hm->himpunan,
                             'bobot' => $tmpBobot,
                         ];
-                        $bobot += $tmpBobot;
-                        array_push($input, $tmpInput);
+                        $bobot += $tmpBobot; // menjumlahkan bobot
+                        array_push($input, $tmpInput); // menyimpan record history ke dalam array
                     }
                 }
-                usort($input, function ($first, $second) {
+                usort($input, function ($first, $second) { // mengurutkan nilai pada bobot dari tertinggi ke terendah
                     return $first['bobot'] < $second['bobot'];
                 });
-                array_push($highest, $input[0]);
+                array_push($highest, $input[0]); // mengambil 1 nilaibobot tertinggi
                 array_push($list, $bobot);
             }
 
             $total = 0;
-            for ($i = 0; $i < count($list); $i++) {
-                $variabel = Variabel::where('id', $request->variabel_id[$i])->first();
-                $tmpBobot = intval($request->nilai[$i]) >= $variabel->min && intval($request->nilai[$i]) <= $variabel->max ? $highest[$i]['bobot'] : 0;
-                $total += doubleval($tmpBobot);
-                EmployeeEvaluation::create([
+            for ($i = 0; $i < count($list); $i++) { // melakukan perulangan untuk menyimpan record history penilaian
+                $variabel = Variabel::where('id', $request->variabel_id[$i])->first(); // get data tiap variabel berdasarkan id variabel
+                $tmpBobot = intval($request->nilai[$i]) > $variabel->min && intval($request->nilai[$i]) <= $variabel->max ? $highest[$i]['bobot'] : 0; // melakukan pengecekan apakah nilai input sesuai kriteria perusahaan yang telah ditentukan (min/max) jika sesuai maka nilai bobot akan disimpan dan jika tidak maka nilai bobot akan dirubah menjadi 0
+                $total += doubleval($tmpBobot); // menjumlahkan total nilai bobot
+                EmployeeEvaluation::create([ // menyimpan history penilaian
                     'employee_id' => $id,
                     'variabel_id' => $request->variabel_id[$i],
                     'himpunan_id' => $highest[$i]['himpunan_id'],
                     'bobot' => round(doubleval($tmpBobot)),
                 ]);
             }
-            Employee::where('id', $id)->update(['bobot' => $total]);
+            Employee::where('id', $id)->update(['bobot' => $total]); // mengubah bilai bobot pada data karyawan
             return redirect('employee');
-            return ['total bobot' => $total, 'bobot tiap variabel' => $highest, 'input' => $request->nilai];
+            // return ['total bobot' => $total, 'bobot tiap variabel' => $highest, 'input' => $request->nilai];
         } catch (\Throwable $th) {
             throw $th;
         }
