@@ -72,29 +72,7 @@ class EmployeeController extends Controller
 
     public function importData(Request $request)
     {
-        $this->validate($request, [
-            'file' => 'required|mimes:csv,xls,xlsx'
-        ]);
 
-        // menangkap file excel
-        $file = $request->file('file');
-
-        // membuat nama file unik
-        // $nama_file = rand().$file->getClientOriginalName();
-
-        // upload ke folder file_siswa di dalam folder public
-        $name = $file->store('employee', 'public');
-        // $file->move('file_siswa',$nama_file);
-        $path = storage_path('app/public/' . $name);
-        // import data
-        $import = new ProjectImport();
-        Excel::import($import, $path);
-
-        // notifikasi dengan session
-        Session::flash('sukses', 'Data Project Berhasil Diimport!');
-
-        // alihkan halaman kembali
-        return redirect(route('employee.index'));
     }
 
     public function edit($id)
