@@ -36,6 +36,7 @@ class UserController extends Controller
             'username'          => '',
             'email'          => '',
             'password'          => '',
+            'role'          => '',
             'type'          => 'create',
             'route'         => route('user.store')
         ];
@@ -56,7 +57,8 @@ class UserController extends Controller
             'name' => 'required',
             'username' => 'required',
             'email' => 'email:rfc,dns',
-            'password' => '',
+            'role' => 'required',
+            'password' => 'required',
         ]);
 
         try {
@@ -65,6 +67,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
+                'role' => $request->role,
                 'password' => Hash::make($request->password),
             ]);
             if($employee_id){
@@ -132,6 +135,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
+                'role' => $request->role,
             ]);
 
             if($request->password){

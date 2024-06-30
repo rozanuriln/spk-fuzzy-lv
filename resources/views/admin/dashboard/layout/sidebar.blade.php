@@ -22,6 +22,7 @@
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+          <span class="d-block text-white">{{ auth()->user()->role }}</span>
         </div>
       </div>
       <nav class="mt-2">

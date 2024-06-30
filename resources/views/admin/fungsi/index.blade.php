@@ -14,7 +14,10 @@
     @endif
 
     <div class="table-responsive col-lg-12 mb-5">
+        @if (auth()->user()->role == 'Admin')
+
         <a href="{{ route('fungsi.create') }}" class="btn btn-secondary mb-3 shadow">+ Tambah Data</a>
+        @endif
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
@@ -36,6 +39,8 @@
                         <td>{{ $project->bobot }}</td>
                         <td>
                             <a href="{{ route('fungsi.show', $project->id) }}" class="badge bg-primary">Detail</a>
+                            @if (auth()->user()->role == 'Admin')
+
                             <a href="{{ route('fungsi.edit', $project->id) }}" class="badge bg-warning">Edit</a>
                             <form action="{{ route('fungsi.destroy', $project->id) }}" method="post" class="d-inline">
                                 @method('delete')
@@ -43,6 +48,7 @@
                                 <button class="badge bg-danger border-0"
                                     onclick="return confirm ('Are you sure ?')">Delete</button>
                             </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

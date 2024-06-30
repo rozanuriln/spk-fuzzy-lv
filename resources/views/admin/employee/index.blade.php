@@ -14,7 +14,9 @@
     @endif
 
     <div class="table-responsive col-lg-12 mb-5">
-        <a href="{{ route('employee.create') }}" class="btn btn-secondary mb-3 shadow">+ Tambah Data</a>
+        @if (auth()->user()->role == 'Admin')
+            <a href="{{ route('employee.create') }}" class="btn btn-secondary mb-3 shadow">+ Tambah Data</a>
+        @endif
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
@@ -36,16 +38,19 @@
                         <td>{{ $project->bobot }}</td>
                         <td>
                             <a href="{{ route('employee.show', $project->id) }}" class="badge bg-primary">Detail</a>
-                            <a href="{{ route('employee.edit', $project->id) }}" class="badge bg-warning">Edit</a>
-                            @if ($project->bobot == 0)
-                                <a href="{{ url('evaluasi/'.$project->id ) }}" class="badge bg-success">Evaluasi</a>
+                            @if (auth()->user()->role == 'Admin')
+                                <a href="{{ route('employee.edit', $project->id) }}" class="badge bg-warning">Edit</a>
+                                @if ($project->bobot == 0)
+                                    <a href="{{ url('evaluasi/' . $project->id) }}" class="badge bg-success">Evaluasi</a>
+                                @endif
+                                <form action="{{ route('employee.destroy', $project->id) }}" method="post"
+                                    class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="badge bg-danger border-0"
+                                        onclick="return confirm ('Are you sure ?')">Delete</button>
+                                </form>
                             @endif
-                            <form action="{{ route('employee.destroy', $project->id) }}" method="post" class="d-inline">
-                                @method('delete')
-                                @csrf
-                                <button class="badge bg-danger border-0"
-                                    onclick="return confirm ('Are you sure ?')">Delete</button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach
