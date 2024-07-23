@@ -13,6 +13,12 @@
         </div>
     @endif
 
+    @if (session()->has('error'))
+        <div class="alert alert-danger col-lg-10" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="table-responsive col-lg-12 mb-5">
         @if (auth()->user()->role == 'Admin')
             <a href="{{ route('employee.create') }}" class="btn btn-secondary mb-3 shadow">+ Tambah Data</a>
