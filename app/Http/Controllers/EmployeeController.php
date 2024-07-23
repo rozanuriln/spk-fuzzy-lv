@@ -60,7 +60,7 @@ class EmployeeController extends Controller
                 'nama' => $request->nama,
                 'birthDate' => $request->birthDate,
                 'address' => $request->address,
-                'bobot' => '',
+                'bobot' => 0,
             ]);
 
             return redirect('employee')->with('Berhasil menambah data!');
